@@ -1,0 +1,1 @@
+helm del $(helm ls --all --short)

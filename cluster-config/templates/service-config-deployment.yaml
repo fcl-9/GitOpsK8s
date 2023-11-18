@@ -1,0 +1,23 @@
+{{- range $env := .Values.environments }}
+{{- range $serviceconf := $env.deployments }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $serviceconf.name }}-{{ $env.name }}-deployment
+  namespace: cluster-configuration
+spec:
+  selector:
+    matchLabels:
+      app: {{ $serviceconf.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $serviceconf.name }}
+        target-namespace: {{ $env.name }}
+    spec:
+      containers:
+        - name: {{ $serviceconf.name }}-container
+          image: nginx:latest
+---
+{{- end }}
+{{- end }}

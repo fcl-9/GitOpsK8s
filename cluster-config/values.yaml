@@ -1,0 +1,11 @@
+environments:
+  - name: namespace1
+    deployments: 
+    - name: appv1-config
+    - name: appv2-config
+    - name: appv3-config
+  - name: namespace2
+    deployments:
+    - name: appv4-config
+    - name: appv5-config
+    - name: appv6-config
