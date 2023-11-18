@@ -1,21 +1,39 @@
 service:
-  
-# image:
-#   repository: nginx
-#   pullPolicy: IfNotPresent
-#   # Overrides the image tag whose default is the chart appVersion.
-#   tag: ""
-
-# podAnnotations: {}
-# podLabels: {}
-
-# # to be moved
-# service:
-#   type: ClusterIP
-#   port: 80#
-
-# autoscaling:
-#   enabled: false
-#   minReplicas: 1
-#   maxReplicas: 100
-#   targetCPUUtilizationPercentage: 80
+  podAnnotations: {}
+  podLabels: {}
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    tag: ""
+  replicas: 3
+  resources:
+    limits:
+      cpu: 10m
+      memory: 30Mi
+    requests:
+      cpu: 10m
+      memory: 30Mi
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80  
+  probes:
+    enabled: false
+    startupProbe:
+      httpGet:
+        path: /healthz
+        port: liveness-port
+      failureThreshold: 30
+      periodSeconds: 10
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8000
+      initialDelaySeconds: 15
+    readinessProbe:
+      httpGet:
+        path: /health
+        port: 8000
+      initialDelaySeconds: 15
+  terminationGracePeriodSeconds: 30
