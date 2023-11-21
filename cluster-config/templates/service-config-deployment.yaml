@@ -17,7 +17,23 @@ spec:
     spec:
       containers:
         - name: {{ $serviceconf.name }}-container
-          image: nginx:latest # TO BE DEFINED :) 
+          imagePullPolicy: Never
+          image: asmhttp:latest 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $serviceconf.name }}-{{ $env.name }}-deployment
+  namespace: cluster-configuration
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ $serviceconf.name }}
 ---
 {{- end }}
 {{- end }}
