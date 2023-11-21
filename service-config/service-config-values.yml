@@ -1,39 +1,38 @@
-service:
-  podAnnotations: {}
-  podLabels: {}
-  image:
-    repository: nginx
-    pullPolicy: IfNotPresent
-    tag: ""
-  replicas: 3
-  resources:
-    limits:
-      cpu: 10m
-      memory: 30Mi
-    requests:
-      cpu: 10m
-      memory: 30Mi
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80  
-  probes:
-    enabled: false
-    startupProbe:
-      httpGet:
-        path: /healthz
-        port: liveness-port
-      failureThreshold: 30
-      periodSeconds: 10
-    livenessProbe:
-      httpGet:
-        path: /healthz
-        port: 8000
-      initialDelaySeconds: 15
-    readinessProbe:
-      httpGet:
-        path: /health
-        port: 8000
-      initialDelaySeconds: 15
-  terminationGracePeriodSeconds: 30
+podAnnotations: {}
+podLabels: {}
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+replicas: 3
+resources:
+  limits:
+    cpu: 10m
+    memory: 30Mi
+  requests:
+    cpu: 10m
+    memory: 30Mi
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80  
+probes:
+  enabled: false
+  startupProbe:
+    httpGet:
+      path: /startup
+      port: 8000
+    failureThreshold: 30
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /liveness
+      port: 8000
+    initialDelaySeconds: 15
+  readinessProbe:
+    httpGet:
+      path: /readiness
+      port: 8000
+    initialDelaySeconds: 15
+terminationGracePeriodSeconds: 30

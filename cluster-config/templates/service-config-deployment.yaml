@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: {{ $serviceconf.name }}-container
-          image: nginx:latest
+          image: nginx:latest # TO BE DEFINED :) 
 ---
 {{- end }}
 {{- end }}
